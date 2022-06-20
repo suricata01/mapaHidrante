@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+   <link rel="stylesheet" href="./style.css">
+    <title>Hidrantes</title>
+</head>
+<body>
+    <header>
+        <h1>Hidrantes de Managua</h1>
+        <label for="">Name</label><input id="NameBox" type="text"><br><br>
+        <label for="">RollNo</label><input id="RollBox" type="text"><br><br>
+        <label for="">Section</label><input id="SecBox" type="text"><br><br>
+        <label for="">Gender</label>
+        <select name="" id="GenBox">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+        <hr>
+        <button id="Insbtn">Insertar</button>
+        <button id="Selbtn">Seleccionar</button>
+        <button id="Updbtn">Actualizar</button>
+        <button id="Delbtn">Eliminar</button>
+    </header>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+   <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDL3jQeFx055SzkHF8n0CJ7otoohzE7xRY",
+      authDomain: "mapa-nic.firebaseapp.com",
+      databaseURL: "https://mapa-nic-default-rtdb.firebaseio.com",
+      projectId: "mapa-nic",
+      storageBucket: "mapa-nic.appspot.com",
+      messagingSenderId: "939501037240",
+      appId: "1:939501037240:web:b96845037bb8146769764d"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+
+    import { getDatabase, get, ref, set ,child, update,remove } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-database.js";
+    const db =getDatabase();
+
+    var namebox = document.getElementById("NameBox");
+    var rollbox = document.getElementById("RollBox");
+    var secbox = document.getElementById("SecBox");
+    var genbox = document.getElementById("GenBox");
+
+    var insBtn = document.getElementById("Insbtn");
+    var selBtn = document.getElementById("Selbtn");
+    var updBtn = document.getElementById("Updbtn");
+    var delBtn = document.getElementById("Delbtn");
+
+    function InsertData(){
+        set(ref(db,"TheStudent/" + rollbox.value),{
+            NameofStd: namebox.value,
+            RollNo : rollbox.value,
+            Section: secbox.value,
+            Gender: genbox.value
+        })
+        .then(()=>{
+            alert("data stored successfully");
+        })
+        .catch((error) => {
+            alert("unsuccessful ,error" + error);
+        });
+    }
+
+    function SelectData(){
+        const dbref = ref(db);
+        get(child(dbref,"TheStudent/" + rollbox.value)).then((snapshot)=>{
+            if(snapshot.exists()){
+                namebox.value = snapshot.val().NameofStd;
+                secbox.value = snapshot.val().Section;
+                genbox.value = snapshot.val().Gender;
+            }
+            else{
+                alert("No data found");
+            }
+        })
+        .catch((error)=>{
+            alert("unsuccessful ,error" + error);
+        });
+    }
+    function UpdateData(){
+        update(ref(db,"TheStudent/" + rollbox.value),{
+            NameofStd: namebox.value,
+            Section: secbox.value,
+            Gender: genbox.value
+        })
+        .then(()=>{
+            alert("data update successfully");
+        })
+        .catch((error) => {
+            alert("unsuccessful ,error" + error);
+        });
+    }
+    function DeleteData(){
+        remove(ref(db,"TheStudent/" + rollbox.value))
+        .then(()=>{
+            alert("data deleted successfully");
+        })
+        .catch((error) => {
+            alert("unsuccessful ,error" + error);
+        });
+    }
+
+    insBtn.addEventListener('click',InsertData);
+    selBtn.addEventListener('click',SelectData);
+    updBtn.addEventListener('click',UpdateData);
+    delBtn.addEventListener('click',DeleteData);
+  </script>
+   
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-database.js"></script>
+    <script src="./map.js"></script> 
+</body>
+</html>
