@@ -62,13 +62,12 @@
       
         // Your web app's Firebase configuration
         const firebaseConfig = {
-          apiKey: "AIzaSyDL3jQeFx055SzkHF8n0CJ7otoohzE7xRY",
-          authDomain: "mapa-nic.firebaseapp.com",
-          databaseURL: "https://mapa-nic-default-rtdb.firebaseio.com",
-          projectId: "mapa-nic",
-          storageBucket: "mapa-nic.appspot.com",
-          messagingSenderId: "939501037240",
-          appId: "1:939501037240:web:b96845037bb8146769764d"
+            apiKey: "AIzaSyDAPiT0RBTV92RwY_o6viZPygfBbWXui0M",
+            authDomain: "monografia-4895b.firebaseapp.com",
+            projectId: "monografia-4895b",
+            storageBucket: "monografia-4895b.appspot.com",
+            messagingSenderId: "807158163486",
+            appId: "1:807158163486:web:c12e6bcfb6f0a475bb260f"
         };
       
         // Initialize Firebase
@@ -102,7 +101,7 @@
        // marker.bindPopup("I am a standalone popup." ).openPopup();
 
         function InsertData(){
-            set(ref(db,"TheStudent/" + rollbox.value),{
+            set(ref(db,"Hidrantes/" + rollbox.value),{
                 NameofStd: namebox.value,
                 RollNo : rollbox.value,
                 Section: secbox.value,
@@ -118,13 +117,14 @@
 
         function SelectData(){
             const dbref = ref(db);
-            get(child(dbref,"TheStudent/1" )).then((snapshot)=>{
+            get(child(dbref,"Hidrantes/1" )).then((snapshot)=>{
                 if(snapshot.exists()){
                     namebox.value = snapshot.val().NameofStd;
                     rollbox.value =snapshot.val().RollNo;
                     secbox.value = snapshot.val().Section;
                     genbox.value = snapshot.val().Gender;
-                    marker.bindPopup( snapshot.val().NameofStd + "<br>" + snapshot.val().RollNo ).openPopup();
+                    marker.bindPopup("<h4>Ubicacion: " + snapshot.val().NameofStd + "</h4>"+
+                                    "<h4>Presion: " + snapshot.val().RollNo + " PSI</h4>").openPopup();
 
                 }
                 else{
@@ -136,7 +136,7 @@
             });
         }
         function UpdateData(){
-            update(ref(db,"TheStudent/" + rollbox.value),{
+            update(ref(db,"Hidrantes/" + rollbox.value),{
                 NameofStd: namebox.value,
                 Section: secbox.value,
                 Gender: genbox.value

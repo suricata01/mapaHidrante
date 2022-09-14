@@ -1,3 +1,4 @@
+// Configuracion del mapa
 var map = L.map('map').setView([12.1508, -86.2683], 13);
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -10,10 +11,10 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 
 var marker = L.marker([12.1508, -86.2683]).addTo(map);
 //marker.bindPopup("I am a standalone popup." ).openPopup();
-
+//import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js";
 function SelectData(){
     const dbref = ref(db);
-    get(child(dbref,"TheStudent/1" )).then((snapshot)=>{
+    get(child(dbref,"Hidrantes/1" )).then((snapshot)=>{
         if(snapshot.exists()){
             namebox.value = snapshot.val().NameofStd;
             rollbox.value =snapshot.val().RollNo;
@@ -30,7 +31,7 @@ function SelectData(){
         alert("unsuccessful ,error" + error);
     });
 }
-marker.addEventListener('click',SelectData);
+// marker.addEventListener('click',SelectData);
 document.getElementById("SelectLocation").addEventListener('change',function(e){
     let Coordenadas =e.target.value.split(",");
     map.flyTo(Coordenadas,17)
