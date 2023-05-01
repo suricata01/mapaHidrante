@@ -8,6 +8,11 @@
     --sm: 14px;
     --md: 16px;
     --lg: 18px;
+    --gato: primary-font: sans-serif;
+    margin : 0;
+    padding: 0;
+    box-sizing : border-box;
+    font-family : "Poppins", sans-serif;
 }
 #map 
 { 
@@ -59,11 +64,17 @@ nav{
     font-size: var(--lg);
     margin-right: 12px;
 }
-@media (max-width: 640px){
+.carrusel{
+    height: 400px;
+    width: 20hw; 
+    margin: 30px;
+    
+}
+/* @media (max-width: 640px){
     .menu{
         display: block;
     }
     .navbar-left ul{
         display: none;
     }
-}
+} */
